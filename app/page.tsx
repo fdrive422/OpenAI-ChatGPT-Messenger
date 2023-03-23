@@ -15,9 +15,9 @@ const Page: React.FC<Props> = ({}) => {
 				{/* <h1 className='text-5xl font-semibold mb-20'>ChatGPT</h1> */}
 				<div className="mb-20">
 					<h1 className=" justify-center text-5xl font-bold mb-4 ">
-						ChatGPT
+						OpenAI
 					</h1>
-					<p className=" text-4xl text-center">OpenAI</p>
+					<p className=" text-4xl text-center">ChatGPT</p>
 				</div>
 				<div className="flex space-x-2 text-center">
 					<div>
