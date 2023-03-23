@@ -17,7 +17,7 @@ export default function Head() {
 				content="openai, chatgpt, next.js13, next.js, react.js, nextauth, tailwindcss, typescript, firebase"
 			/>
 			<link rel="apple-touch-icon" href="/favicon.ico" />
-			<title>FDrive OpenAI</title>
+			<title>OpenAI ChatGPT App</title>
 		</>
 	);
 }
