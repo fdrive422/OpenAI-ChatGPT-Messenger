@@ -11,13 +11,11 @@ const Page: React.FC<Props> = ({}) => {
 	return (
 		<>
 			<div className="flex flex-col items-center justify-center h-screen px-2 bg-white text-gray-800 dark:bg-gray-800 dark:text-white overflow-y-auto">
-				{/* <div className='flex flex-col items-center justify-center h-screen px-2 bg-gray-800 text-white overflow-y-auto'> */}
-				{/* <h1 className='text-5xl font-semibold mb-20'>ChatGPT</h1> */}
 				<div className="mb-20">
-					<h1 className=" justify-center text-5xl font-bold mb-4 ">
+					<h1 className=" justify-center text-4xl font-bold mb-4 ">
 						OpenAI
 					</h1>
-					<p className=" text-4xl text-center">ChatGPT</p>
+					<p className=" text-3xl text-center">ChatGPT</p>
 				</div>
 				<div className="flex space-x-2 text-center">
 					<div>
@@ -68,8 +66,7 @@ const Page: React.FC<Props> = ({}) => {
 								May occasionally generate incorrect information
 							</p>
 							<p className="infoText">
-								May occasionally produce harmful or biased
-								content
+								May produce harmful or biased content
 							</p>
 							<p className="infoText">
 								Limited knowledge of world and events after 2021
