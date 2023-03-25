@@ -12,9 +12,7 @@ const Page: React.FC<Props> = ({}) => {
 		<>
 			<div className="flex flex-col items-center justify-center h-screen px-2 bg-white text-gray-800 dark:bg-gray-800 dark:text-white overflow-y-auto">
 				<div className="mb-20">
-					<h1 className=" justify-center text-4xl font-bold mb-4 ">
-						OpenAI
-					</h1>
+					<h1 className="text-4xl font-bold mb-4 ">OpenAI</h1>
 					<p className=" text-3xl text-center">ChatGPT</p>
 				</div>
 				<div className="flex space-x-2 text-center">
@@ -28,7 +26,7 @@ const Page: React.FC<Props> = ({}) => {
 								"Explain quantum computing in simple terms"
 							</p>
 							<p className="infoText">
-								"Got any creative ideas for a 10 year old’s
+								"Any creative ideas for a 10 year old’s
 								birthday?"
 							</p>
 							<p className="infoText">
