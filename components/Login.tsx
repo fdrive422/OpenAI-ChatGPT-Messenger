@@ -22,20 +22,23 @@ const Login: React.FC<Props> = ({}) => {
 				<button
 					className="text-white font-semibold text-3xl animate-pulse"
 					onClick={() => signIn("google")}>
-					<p className="text-4xl ">OpenAI</p>
-					<p className="text-2xl">Sign In to use ChatGPT</p>
+					<p className="text-4xl mb-2 ">OpenAI</p>
+					<p className="text-2xl underline">
+						Sign In to use ChatGPT{" "}
+					</p>
 				</button>
 
 				<div className="flex flex-col justify-center items-center mt-52 md:mt-36 text-gray-200 gap-3">
 					{/* <a href="https://www.instagram.com/fdrive/">
-						<div className=" flex items-center gap-1">
+						<div className=" flex items-center gap-1 text-sm">
 							<AiOutlineInstagram size={23} />
 							<p className=" font-semibold ">fdrive</p>
 						</div>
 					</a> */}
 
 					<a href="https://github.com/fdrive422/OpenAI-ChatGPT-Messenger">
-						<div className=" flex items-center gap-1 ring-2 ring-gray-300 px-3 py-2 rounded-lg text-sm ">
+						<div className=" flex items-center gap-1 rounded-lg text-sm ">
+							{/* <div className=" flex items-center gap-1 ring-2 ring-gray-300 px-3 py-2 rounded-lg text-sm "> */}
 							<AiFillGithub size={23} />
 							<p>This Repositories</p>
 						</div>

@@ -11,11 +11,11 @@ const Page: React.FC<Props> = ({}) => {
 	return (
 		<>
 			<div className="flex flex-col items-center justify-center h-screen px-2 bg-white text-gray-800 dark:bg-gray-800 dark:text-white overflow-y-auto">
-				<div className="mb-20">
-					<h1 className="text-4xl font-bold mb-4 ">OpenAI</h1>
-					<p className=" text-3xl text-center">ChatGPT</p>
+				<div className="mb-10">
+					<h1 className="text-4xl font-bold mb-2 ">OpenAI</h1>
+					<p className=" text-2xl text-center">ChatGPT</p>
 				</div>
-				<div className="flex space-x-2 text-center">
+				<div className="flex space-x-2 text-center mb-20">
 					<div>
 						<div className="flex flex-col items-center justify-center mb-5">
 							<SunIcon className="h-8 w-8" />
