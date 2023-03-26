@@ -9,7 +9,7 @@ export default function Head() {
 			<meta name="theme-color" content="#000000" />
 			<meta
 				name="description"
-				content="OpenAI ChatGPT Messenger apps by fdrive"
+				content="OpenAI ChatGPT Messenger clone by fdrive"
 			/>
 			<meta name="author" content="fdrive" />
 			<meta
@@ -17,7 +17,7 @@ export default function Head() {
 				content="openai, chatgpt, next.js13, next.js, react.js, nextauth, tailwindcss, typescript, firebase"
 			/>
 			<link rel="apple-touch-icon" href="/favicon.ico" />
-			<title>OpenAI ChatGPT App</title>
+			<title>OpenAI ChatGPT Clone</title>
 		</>
 	);
 }

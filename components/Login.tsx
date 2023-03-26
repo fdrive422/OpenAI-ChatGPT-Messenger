@@ -40,7 +40,7 @@ const Login: React.FC<Props> = ({}) => {
 						<div className=" flex items-center gap-1 rounded-lg text-sm ">
 							{/* <div className=" flex items-center gap-1 ring-2 ring-gray-300 px-3 py-2 rounded-lg text-sm "> */}
 							<AiFillGithub size={23} />
-							<p>This Repositories</p>
+							<p>Code Repository</p>
 						</div>
 					</a>
 				</div>

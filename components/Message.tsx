@@ -47,8 +47,6 @@ const Message: React.FC<Props> = ({ message }) => {
 					alt=""
 					className="h-8 w-8 rounded-md"
 				/>
-				{/* <textarea className='text-sm w-full outline-none bg-transparent' rows={5} defaultValue={message.text} readOnly></textarea> */}
-				{/* <div className='text-sm whitespace-pre-wrap'>{deleteFirstCharEnter(message.text)}</div> */}
 				<div className="text-sm whitespace-pre-wrap">
 					{(message.text as string).trimStart()}
 				</div>
