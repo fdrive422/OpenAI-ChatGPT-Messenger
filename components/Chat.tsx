@@ -45,7 +45,7 @@ const Chat: React.FC<Props> = ({ chatId }) => {
 			{data?.empty && (
 				<>
 					<p className="mt-10 text-center text-gray-800 dark:text-white">
-						Type a prompt in below to get started
+						Type a prompt below to get started
 					</p>
 					<ArrowDownCircleIcon className="h-10 w-10 mx-auto mt-5 text-gray-800 dark:text-white animate-bounce" />
 				</>
