@@ -1,3 +1,7 @@
+### <a href="https://openai-chatgpt-fdrive422.vercel.app/">LIVE DEMO</a>
+
+![Screen Shot 2023-04-20 at 21 11 18 PM](https://user-images.githubusercontent.com/72363705/233539118-b41b2482-7f16-4b7d-ac08-aa89f65a54e9.png)
+
 ```sh
 npx create-next-app@latest -e with-tailwindcss project-name
 ```
