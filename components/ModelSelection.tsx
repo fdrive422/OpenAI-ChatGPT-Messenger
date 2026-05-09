@@ -12,7 +12,7 @@ const ModelSelection = () => {
 
 	const { data, isLoading } = useSWR("listModels", fetchModels);
 	const { data: model, mutate: setModel } = useSWR("selectedModel", {
-		fallbackData: "text-davinci-003",
+		fallbackData: "gpt-4o-mini",
 	});
 
 	const modelOptions: { value: string; label: string }[] = data?.modelOptions || [];
