@@ -40,7 +40,7 @@ export default async function RootLayout({
 								{/* CLIENT PROVIDER */}
 								<ClientProvider />
 
-								<div className="bg-white dark:bg-[#343541] flex-1 duration-300">
+								<div className="bg-white dark:bg-[#212121] flex-1 min-h-screen">
 									{children}
 								</div>
 							</div>

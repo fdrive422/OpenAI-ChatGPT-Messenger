@@ -1,59 +1,72 @@
-'use client'
+"use client";
 
-import { ChatBubbleLeftIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { collection, deleteDoc, doc, orderBy, query } from 'firebase/firestore';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import React, { MouseEventHandler, useEffect, useState } from 'react';
-import { useCollection } from 'react-firebase-hooks/firestore';
-import { db } from '../utils/firebase';
+import { ChatBubbleLeftIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { collection, deleteDoc, doc, orderBy, query } from "firebase/firestore";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { db } from "../utils/firebase";
 
 type Props = {
-    id: string,
-    onClickChat: MouseEventHandler<HTMLAnchorElement>
+	id: string;
+	onClickChat: () => void;
 };
 
 const ChatRow: React.FC<Props> = ({ id, onClickChat }) => {
-    const [active, setActive] = useState(false)
+	const [active, setActive] = useState(false);
+	const pathname = usePathname();
+	const router = useRouter();
+	const { data: session } = useSession();
 
-    const pathname = usePathname()
-    const router = useRouter()
+	const [data] = useCollection(
+		session &&
+			query(
+				collection(db, "users", session?.user?.email!, "chats", id, "messages"),
+				orderBy("createdAt", "asc")
+			)
+	);
 
-    const { data: session } = useSession()
+	useEffect(() => {
+		if (!pathname) return;
+		setActive(pathname.includes(id));
+	}, [pathname]);
 
-    // LIST OF MESSAGE IN A CHATS
-    const [data] = useCollection(
-        session && query(
-            collection(db, 'users', session?.user?.email!, 'chats', id, 'messages'),
-            orderBy('createdAt', 'asc')
-        )
-    )
+	const removeChat = async (e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+		await deleteDoc(doc(db, "users", session?.user?.email!, "chats", id));
+		onClickChat();
+		router.replace("/");
+	};
 
-    useEffect(() => {
-        if (!pathname) return
+	const title =
+		data?.docs.length
+			? data.docs[data.docs.length - 1]?.data().text
+			: "New Chat";
 
-        setActive(pathname.includes(id))
-    }, [pathname])
-
-    const removeChat = async () => {
-        await deleteDoc(doc(db, 'users', session?.user?.email!, 'chats', id))
-        // @ts-ignored
-        onClickChat()
-        router.replace('/')
-    }
-
-    return (
-        <>
-            <Link href={`/chat/${id}`} onClick={onClickChat} className={`chatRow justify-center ${active && 'bg-gray-700/50'}`}>
-                <ChatBubbleLeftIcon className='h-5 w-5' />
-                <p className='flex-1 truncate'>
-                    {data?.docs.length && data?.docs[data.docs.length - 1]?.data().text || 'New Chat'}
-                </p>
-                <TrashIcon onClick={removeChat} className='h-5 w-5 text-gray-700 hover:text-red-700' />
-            </Link>
-        </>
-    );
-}
+	return (
+		<Link
+			href={`/chat/${id}`}
+			onClick={onClickChat}
+			className={`group flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${
+				active
+					? "bg-white/10 text-white"
+					: "text-gray-400 hover:text-white hover:bg-white/5"
+			}`}
+		>
+			<ChatBubbleLeftIcon className="h-4 w-4 flex-shrink-0 opacity-70" />
+			<span className="flex-1 truncate text-xs">{title}</span>
+			<button
+				onClick={removeChat}
+				className="flex-shrink-0 opacity-0 group-hover:opacity-100 p-0.5 rounded text-gray-500 hover:text-red-400 transition-all"
+				title="Delete chat"
+			>
+				<TrashIcon className="h-3.5 w-3.5" />
+			</button>
+		</Link>
+	);
+};
 
 export default ChatRow;

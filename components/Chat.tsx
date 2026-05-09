@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowDownCircleIcon } from "@heroicons/react/24/outline";
 import { collection, orderBy, query } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useRef } from "react";
@@ -16,7 +15,6 @@ const Chat: React.FC<Props> = ({ chatId }) => {
 	const { data: session } = useSession();
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
-	// LIST OF MESSAGE IN A CHATS
 	const [data] = useCollection(
 		session &&
 			query(
@@ -32,27 +30,30 @@ const Chat: React.FC<Props> = ({ chatId }) => {
 			)
 	);
 
-	const scrollToBottom = () => {
-		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-	};
-
 	useEffect(() => {
-		scrollToBottom();
+		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [data?.docs.length]);
 
 	return (
 		<div className="flex-1 overflow-y-auto overflow-x-hidden">
 			{data?.empty && (
-				<>
-					<p className="mt-10 text-center text-gray-800 dark:text-white">
-						Type a prompt below to get started
+				<div className="flex flex-col items-center justify-center h-full text-center px-4 py-20">
+					<div className="w-12 h-12 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-lg mb-4">
+						AI
+					</div>
+					<h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+						How can I help you today?
+					</h2>
+					<p className="text-sm text-gray-500 dark:text-gray-400">
+						Type a message below to start the conversation
 					</p>
-					<ArrowDownCircleIcon className="h-10 w-10 mx-auto mt-5 text-gray-800 dark:text-white animate-bounce" />
-				</>
+				</div>
 			)}
+
 			{data?.docs.map((item) => (
 				<Message key={item.id} message={item.data()} />
 			))}
+
 			<div ref={messagesEndRef} />
 		</div>
 	);
