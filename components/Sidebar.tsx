@@ -8,26 +8,18 @@ import { collection, orderBy, query } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import ChatRow from "./ChatRow";
 import ModelSelection from "./ModelSelection";
-import {
-	ArrowLeftOnRectangleIcon,
-	MoonIcon,
-	SunIcon,
-} from "@heroicons/react/24/outline";
+import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import LogoutModal from "./LogoutModal";
 import { ThemeContext } from "../providers/ThemeProvider";
 
-type Props = {};
-
-const Sidebar: React.FC<Props> = ({}) => {
+const Sidebar = () => {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
-
 	const { data: session } = useSession();
 	const { theme, setTheme } = useContext(ThemeContext);
 	const trigger = useRef<any>(null);
 	const sidebar = useRef<any>(null);
 
-	// LIST OF CHAT IN A USER
-	const [data, loading, error] = useCollection(
+	const [data, loading] = useCollection(
 		session &&
 			query(
 				collection(db, "users", session.user?.email!, "chats"),
@@ -35,7 +27,6 @@ const Sidebar: React.FC<Props> = ({}) => {
 			)
 	);
 
-	// close on click outside
 	useEffect(() => {
 		const clickHandler = ({ target }: any) => {
 			if (!sidebar.current || !trigger.current) return;
@@ -51,7 +42,6 @@ const Sidebar: React.FC<Props> = ({}) => {
 		return () => document.removeEventListener("click", clickHandler);
 	});
 
-	// close if the esc key is pressed
 	useEffect(() => {
 		const keyHandler = ({ keyCode }: any) => {
 			if (!sidebarOpen || keyCode !== 27) return;
@@ -63,146 +53,107 @@ const Sidebar: React.FC<Props> = ({}) => {
 
 	return (
 		<>
-			{/* SIDEBAR MOBILE */}
+			{/* Mobile overlay */}
 			<div
-				className={`fixed inset-0 bg-slate-900 bg-opacity-60 z-40 lg:hidden md:z-auto transition-opacity duration-200 ${
-					sidebarOpen
-						? "opacity-100"
-						: "opacity-0 pointer-events-none"
+				className={`fixed inset-0 bg-black/60 z-40 lg:hidden transition-opacity duration-200 ${
+					sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
 				}`}
-				aria-hidden="true"
-				onClick={() => setSidebarOpen(false)}></div>
-			<div className="lg:hidden sticky top-0 w-full px-4 sm:px-6 lg:px-8 z-30 bg-[#f7f7f8] dark:bg-[#343541] dark:text-white">
-				<div className="flex items-center justify-between pt-4 pb-4">
+				onClick={() => setSidebarOpen(false)}
+			/>
+
+			{/* Mobile top bar */}
+			<div className="lg:hidden sticky top-0 w-full z-30 bg-[#212121] border-b border-white/10">
+				<div className="flex items-center justify-between px-4 py-3">
 					<button
+						ref={trigger}
 						onClick={() => setSidebarOpen(!sidebarOpen)}
-						className="inline-flex items-center justify-center p-1 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900">
+						className="p-1.5 rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+					>
 						{sidebarOpen ? (
-							<svg
-								className="block h-6 w-6 bg-transparent text-darkText1 opa-anim"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								aria-hidden="true">
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth="2"
-									d="M6 18L18 6M6 6l12 12"
-								/>
+							<svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
 							</svg>
 						) : (
-							<svg
-								className="block h-6 w-6 text-darkText1 opa-anim"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								aria-hidden="true">
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth="2"
-									d="M4 6h16M4 12h16M4 18h16"
-								/>
+							<svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
 							</svg>
 						)}
 					</button>
-
-					{/* Header */}
-					{session && (
-						<div className="flex items-center justify-center space-x-2">
-							<img
-								src={session.user?.image!}
-								alt="user-avatar"
-								className="h-8 w-8 rounded-full cursor-pointer mx-auto mb-2 hover:opacity-50"
-							/>
-							<p className="truncate mb-2">
-								{session.user?.name}
-							</p>
-						</div>
-					)}
+					<span className="text-white font-semibold text-sm">ChatGPT</span>
+					<NewChat onNewChat={() => setSidebarOpen(false)} iconOnly />
 				</div>
 			</div>
 
-			{/* SIDEBAR */}
+			{/* Sidebar panel */}
 			<div
 				id="sidebar"
 				ref={sidebar}
-				className={`bg-[#202123] absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto h-screen overflow-y-auto 
-                    w-[17rem] xl:w-[19rem] 2xl::w-[20rem] ${
-						sidebarOpen ? "translate-x-0" : "-translate-x-[20rem]"
-					} md:translate-x-0 
-                    transform transition-all ease-in-out duration-500
-                `}>
-				<div className="p-2 flex flex-col h-screen">
-					<div className="flex-1">
-						<div>
-							{/* NEWCHAT */}
-							<NewChat onNewChat={() => setSidebarOpen(false)} />
+				className={`bg-[#171717] fixed z-40 left-0 top-0 lg:static h-screen flex flex-col
+					w-64 xl:w-[17rem]
+					${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
+					transform transition-transform duration-300 ease-in-out`}
+			>
+				{/* Header */}
+				<div className="flex items-center justify-between px-3 py-3 flex-shrink-0">
+					<span className="text-white font-semibold text-sm px-1">ChatGPT</span>
+					<NewChat onNewChat={() => setSidebarOpen(false)} iconOnly />
+				</div>
 
-							<div className="hidden sm:inline">
-								{/* MODEL SELECTION */}
-								<ModelSelection />
-							</div>
+				{/* Model Selection */}
+				<div className="px-2 pb-2 flex-shrink-0">
+					<ModelSelection />
+				</div>
 
-							<div className="space-y-2">
-								{loading && (
-									<div className="animate-pulse text-center text-white mt-2.5">
-										<p>Loading chats...</p>
-									</div>
-								)}
-
-								{/* Map through ChatRows */}
-								{data?.docs.map((item) => (
-									<ChatRow
-										id={item.id}
-										key={item.id}
-										onClickChat={() =>
-											setSidebarOpen(false)
-										}
-									/>
-								))}
-							</div>
+				{/* Chat history */}
+				<div className="flex-1 overflow-y-auto px-2 py-1 space-y-0.5 min-h-0">
+					{loading && (
+						<div className="flex items-center gap-2 px-3 py-2 text-gray-600 text-xs">
+							<div className="animate-spin h-3 w-3 border border-gray-600 border-t-transparent rounded-full" />
+							Loading chats...
 						</div>
-					</div>
+					)}
 
-					<div className="space-y-2.5">
+					{data?.docs.map((item) => (
+						<ChatRow
+							id={item.id}
+							key={item.id}
+							onClickChat={() => setSidebarOpen(false)}
+						/>
+					))}
+				</div>
+
+				{/* Bottom section */}
+				<div className="flex-shrink-0 border-t border-white/10 p-2 space-y-0.5">
+					<button
+						onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+						className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors text-sm"
+					>
 						{theme === "dark" ? (
-							<div
-								className="chatRow"
-								onClick={() => setTheme("light")}>
-								<SunIcon className="h-5 w-5" />
-								<p className="flex-1">Light Mode</p>
-							</div>
+							<>
+								<SunIcon className="h-4 w-4 flex-shrink-0" />
+								<span>Light mode</span>
+							</>
 						) : (
-							<div
-								className="chatRow"
-								onClick={() => setTheme("dark")}>
-								<MoonIcon className="h-5 w-5" />
-								<p className="flex-1">Dark Mode</p>
-							</div>
+							<>
+								<MoonIcon className="h-4 w-4 flex-shrink-0" />
+								<span>Dark mode</span>
+							</>
 						)}
+					</button>
 
-						{session && (
-							<label
-								htmlFor="logout-modal"
-								className="flex justify-between items-center hover:bg-gray-700/70 cursor-pointer text-gray-300 transition-all duration-200 ease-out rounded-lg px-2">
-								<div className="flex items-center space-x-3">
-									<img
-										src={session.user?.image!}
-										alt="user-avatar"
-										className="h-10 2xl:h-12 w-10 2xl:w-12 rounded-full cursor-pointer mx-auto mb-2 hover:opacity-50 mt-2"
-									/>
-									<p className="truncate">
-										{session.user?.name}
-									</p>
-								</div>
-								<ArrowLeftOnRectangleIcon className="h-7 w-7" />
-							</label>
-						)}
-					</div>
+					{session && (
+						<label
+							htmlFor="logout-modal"
+							className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+						>
+							<img
+								src={session.user?.image!}
+								alt="avatar"
+								className="h-7 w-7 rounded-full flex-shrink-0"
+							/>
+							<span className="text-sm truncate flex-1">{session.user?.name}</span>
+						</label>
+					)}
 				</div>
 			</div>
 
