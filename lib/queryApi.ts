@@ -1,46 +1,41 @@
-import openai from "./chatgpt"
+import openai from "./chatgpt";
 
-const query = async (text: string, chatId: string, model: string) => {
-    const res = openai.createCompletion({
-        model,
-        prompt: text,
-        temperature: 0, //0.9 0.7 0
-        top_p: 1,
-        max_tokens: 4000, //1000 64 3000
-        frequency_penalty: 0.5, // 0 0.5
-        presence_penalty: 0
-    })
-        .then((res) => {
-            // console.log(res.data.choices)
-            // console.log(res.data.choices.length)
-            return res.data.choices[0].text
-        })
-        // .then((res) => res.data.choices)
-        .catch(err => {
-            console.log(err)
-            return `ChatGPT was unable to find an answer for that! (${err})`
-        })
+// o1/o3/o4 reasoning models use different parameters
+const isReasoningModel = (model: string) => /^o[0-9]/.test(model);
 
-    return res
+const query = async (text: string, _chatId: string, model: string) => {
+    try {
+        const params = isReasoningModel(model)
+            ? {
+                  model,
+                  messages: [{ role: "user" as const, content: text }],
+                  max_completion_tokens: 5000,
+                  stream: false as const,
+              }
+            : {
+                  model,
+                  messages: [{ role: "user" as const, content: text }],
+                  temperature: 0.7,
+                  max_tokens: 1000,
+                  stream: false as const,
+              };
 
-    // const query = async (prompt: string, chatId: string, model: string) => {
-    //     const res = await openai
-    //         .createCompletion({
-    //             model,
-    //             prompt,
-    //             temperature: 0.9,
-    //             top_p: 1,
-    //             max_tokens: 1000,
-    //             frequency_penalty: 0,
-    //             presence_penalty: 0,
-    //         })
-    //         .then((res) => res.data.choices[0].text)
-    //         .catch(
-    //             (err) =>
-    //                 `ChatPGT was unable to find an answer for that! (Error : ${err.message})`
-    //         );
+        const res = await openai.chat.completions.create(params);
+        return res.choices[0].message.content;
+    } catch (err: any) {
+        const status: number = err?.status;
+        const detail: string = err?.error?.message ?? err?.message ?? "Unknown error";
 
-    //     return res;
-}
+        console.error(`OpenAI error [${status}] model="${model}": ${detail}`);
 
-export default query
+        if (status === 429) {
+            return `OpenAI rate limit or quota error: ${detail}`;
+        }
+        if (status === 400) {
+            return `Bad request to OpenAI (model "${model}"): ${detail}`;
+        }
+        return `ChatGPT was unable to find an answer for that! (${detail})`;
+    }
+};
+
+export default query;
