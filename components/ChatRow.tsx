@@ -52,8 +52,8 @@ const ChatRow: React.FC<Props> = ({ id, onClickChat }) => {
 			onClick={onClickChat}
 			className={`group flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${
 				active
-					? "bg-white/10 text-white"
-					: "text-gray-400 hover:text-white hover:bg-white/5"
+					? "bg-gray-200 dark:bg-white/10 text-gray-900 dark:text-white"
+					: "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5"
 			}`}
 		>
 			<ChatBubbleLeftIcon className="h-4 w-4 flex-shrink-0 opacity-70" />

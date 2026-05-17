@@ -7,7 +7,6 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, orderBy, query } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import ChatRow from "./ChatRow";
-import ModelSelection from "./ModelSelection";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import LogoutModal from "./LogoutModal";
 import { ThemeContext } from "../providers/ThemeProvider";
@@ -62,12 +61,12 @@ const Sidebar = () => {
 			/>
 
 			{/* Mobile top bar */}
-			<div className="lg:hidden sticky top-0 w-full z-30 bg-[#212121] border-b border-white/10">
+			<div className="lg:hidden sticky top-0 w-full z-30 bg-[#f9f9f9] dark:bg-[#212121] border-b border-gray-200 dark:border-white/10">
 				<div className="flex items-center justify-between px-4 py-3">
 					<button
 						ref={trigger}
 						onClick={() => setSidebarOpen(!sidebarOpen)}
-						className="p-1.5 rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+						className="p-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
 					>
 						{sidebarOpen ? (
 							<svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -79,7 +78,7 @@ const Sidebar = () => {
 							</svg>
 						)}
 					</button>
-					<span className="text-white font-semibold text-sm">ChatGPT</span>
+					<span className="text-gray-900 dark:text-white font-semibold text-sm">ChatGPT</span>
 					<NewChat onNewChat={() => setSidebarOpen(false)} iconOnly />
 				</div>
 			</div>
@@ -88,27 +87,24 @@ const Sidebar = () => {
 			<div
 				id="sidebar"
 				ref={sidebar}
-				className={`bg-[#171717] fixed z-40 left-0 top-0 lg:static h-screen flex flex-col
+				className={`bg-[#f9f9f9] dark:bg-[#171717] fixed z-40 left-0 top-0 lg:static h-screen flex flex-col
 					w-64 xl:w-[17rem]
 					${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
 					transform transition-transform duration-300 ease-in-out`}
 			>
 				{/* Header */}
 				<div className="flex items-center justify-between px-3 py-3 flex-shrink-0">
-					<span className="text-white font-semibold text-sm px-1">ChatGPT</span>
+					<span className="text-gray-900 dark:text-white font-semibold text-sm px-1">
+						ChatGPT
+					</span>
 					<NewChat onNewChat={() => setSidebarOpen(false)} iconOnly />
-				</div>
-
-				{/* Model Selection */}
-				<div className="px-2 pb-2 flex-shrink-0">
-					<ModelSelection />
 				</div>
 
 				{/* Chat history */}
 				<div className="flex-1 overflow-y-auto px-2 py-1 space-y-0.5 min-h-0">
 					{loading && (
-						<div className="flex items-center gap-2 px-3 py-2 text-gray-600 text-xs">
-							<div className="animate-spin h-3 w-3 border border-gray-600 border-t-transparent rounded-full" />
+						<div className="flex items-center gap-2 px-3 py-2 text-gray-400 text-xs">
+							<div className="animate-spin h-3 w-3 border border-gray-400 border-t-transparent rounded-full" />
 							Loading chats...
 						</div>
 					)}
@@ -123,10 +119,10 @@ const Sidebar = () => {
 				</div>
 
 				{/* Bottom section */}
-				<div className="flex-shrink-0 border-t border-white/10 p-2 space-y-0.5">
+				<div className="flex-shrink-0 border-t border-gray-200 dark:border-white/10 p-2 space-y-0.5">
 					<button
 						onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-						className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors text-sm"
+						className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-sm"
 					>
 						{theme === "dark" ? (
 							<>
@@ -144,7 +140,7 @@ const Sidebar = () => {
 					{session && (
 						<label
 							htmlFor="logout-modal"
-							className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+							className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors cursor-pointer"
 						>
 							<img
 								src={session.user?.image!}

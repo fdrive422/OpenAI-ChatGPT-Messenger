@@ -33,7 +33,7 @@ const NewChat: React.FC<Props> = ({ onNewChat, iconOnly = false }) => {
 			<button
 				onClick={createNewChat}
 				title="New chat"
-				className="p-1.5 rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+				className="p-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
 			>
 				<PencilSquareIcon className="h-5 w-5" />
 			</button>

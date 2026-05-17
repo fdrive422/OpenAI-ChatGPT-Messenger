@@ -38,12 +38,6 @@ const Chat: React.FC<Props> = ({ chatId }) => {
 		<div className="flex-1 overflow-y-auto overflow-x-hidden">
 			{data?.empty && (
 				<div className="flex flex-col items-center justify-center h-full text-center px-4 py-20">
-					<div className="w-12 h-12 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-lg mb-4">
-						AI
-					</div>
-					<h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
-						How can I help you today?
-					</h2>
 					<p className="text-sm text-gray-500 dark:text-gray-400">
 						Type a message below to start the conversation
 					</p>

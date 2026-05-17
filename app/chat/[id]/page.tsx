@@ -1,6 +1,7 @@
 import React from 'react';
 import Chat from '../../../components/Chat';
 import ChatInput from '../../../components/ChatInput';
+import ChatHeader from '../../../components/ChatHeader';
 
 type Props = {
     params: {
@@ -11,15 +12,11 @@ type Props = {
 
 const ChatPage: React.FC<Props> = ({ params: { id } }) => {
     return (
-        <>
-            <div className='flex flex-col h-screen overflow-hidden'>
-                {/* Chat */}
-                <Chat chatId={id} />
-
-                {/* ChatInput */}
-                <ChatInput chatId={id} />
-            </div>
-        </>
+        <div className='flex flex-col h-screen overflow-hidden'>
+            <ChatHeader />
+            <Chat chatId={id} />
+            <ChatInput chatId={id} />
+        </div>
     );
 }
 
